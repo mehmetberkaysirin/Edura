@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edura.WebUI.Repository.Abstract;
+using Edura.WebUI.Repository.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,8 +26,9 @@ namespace Edura.WebUI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddMvc();
+          services.AddDbContext<EduraContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));//appsettings.json dosyasında alınanconnectionstring.
+          services.AddTransient<IProductRepository, EfProductRepository>();//IProductRepository istenirse EfProductRepository gönderilir.
+          services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +38,7 @@ namespace Edura.WebUI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseMvc(routes => 
             {
@@ -43,6 +47,8 @@ namespace Edura.WebUI
                         template:"{controller=Home}/{action=Index}/{id?}"
                     );
             });
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }
