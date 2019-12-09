@@ -28,7 +28,8 @@ namespace Edura.WebUI
         {
           services.AddDbContext<EduraContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));//appsettings.json dosyasında alınanconnectionstring.
           services.AddTransient<IProductRepository, EfProductRepository>();//IProductRepository istenirse EfProductRepository gönderilir.
-          services.AddMvc();
+          services.AddTransient<ICategoryRepository, EfCategoryRepository>();//ICategoryRepository istenirse EfCategoryRepository gönderilir.
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
