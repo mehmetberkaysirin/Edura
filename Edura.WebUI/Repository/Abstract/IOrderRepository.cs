@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Edura.WebUI.Repository.Abstract
 {
-    public interface IProductRepository:IGenericRepository<Product>
+    public interface IOrderRepository:IGenericRepository<Order>
     {
-        List<Product> GetTop5Products();//Özel Repolar
+
     }
 }
