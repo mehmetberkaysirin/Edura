@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Edura.WebUI.Repository;
 using Edura.WebUI.Repository.Abstract;
 using Edura.WebUI.Repository.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
@@ -26,9 +27,10 @@ namespace Edura.WebUI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-          services.AddDbContext<EduraContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));//appsettings.json dosyasında alınanconnectionstring.
-          services.AddTransient<IProductRepository, EfProductRepository>();//IProductRepository istenirse EfProductRepository gönderilir.
-          services.AddTransient<ICategoryRepository, EfCategoryRepository>();//ICategoryRepository istenirse EfCategoryRepository gönderilir.
+            services.AddDbContext<EduraContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));//appsettings.json dosyasında alınanconnectionstring.
+            services.AddTransient<IProductRepository, EfProductRepository>();//IProductRepository istenirse EfProductRepository gönderilir.
+            services.AddTransient<ICategoryRepository, EfCategoryRepository>();//ICategoryRepository istenirse EfCategoryRepository gönderilir.
+            services.AddTransient<IUnitOfWork, EfUnitOfWork>();//IUnitOfWork istenirse EfUnitOfWork gönderilir.
             services.AddMvc();
         }
 
@@ -41,11 +43,11 @@ namespace Edura.WebUI
             }
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseMvc(routes => 
+            app.UseMvc(routes =>
             {
                 routes.MapRoute(
                         name: "default",
-                        template:"{controller=Home}/{action=Index}/{id?}"
+                        template: "{controller=Home}/{action=Index}/{id?}"
                     );
             });
 

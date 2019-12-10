@@ -37,6 +37,14 @@ namespace Edura.WebUI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Image");
+
+                    b.Property<bool>("IsApproved");
+
+                    b.Property<bool>("IsFeatured");
+
+                    b.Property<bool>("IsHome");
+
                     b.Property<double>("Price");
 
                     b.Property<string>("ProductName");
